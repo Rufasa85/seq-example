@@ -11,6 +11,9 @@ app.use(express.urlencoded({ extended: true }));
 const petsRoutes = require("./controllers/petsController");
 app.use("/api/pets",petsRoutes)
 
+const ownersRoutes = require("./controllers/ownersController");
+app.use("/api/owners",ownersRoutes)
+
 sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log('Now listening'));
 });

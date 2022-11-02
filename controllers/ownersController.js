@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Owner = require("../models/Owner");
+const bcrypt = require("bcrypt");
 
 router.get("/",(req,res)=>{
     Owner.findAll().then(allOwners=>{
@@ -24,12 +25,31 @@ router.post("/",(req,res)=>{
     console.log(req.body)
     Owner.create({
         username:req.body.username,
-        password:req.body.password
+        password:bcrypt.hashSync(req.body.password,3)
     }).then(data=>{
         res.json(data)
     }).catch(err=>{
         console.log(err);
         res.status(500).json({err:err})
+    })
+})
+
+router.post("/login",(req,res)=>{
+    Owner.findOne({
+        where:{
+            username:req.body.username
+        }
+    }).then(foundOwner=>{
+        if(!foundOwner){
+            return res.status(401).json({msg:"login failed"})
+        }
+        if(!bcrypt.compareSync(req.body.password,foundOwner.password)){
+            return res.status(401).json({msg:"login failed"})
+        }
+        res.json(foundOwner)
+    }).catch(err=>{
+        console.log(err);
+        res.json({err});
     })
 })
 

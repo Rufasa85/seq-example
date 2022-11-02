@@ -50,6 +50,7 @@ router.post("/", (req, res) => {
     species: req.body.species,
     age: req.body.age,
     isCute: req.body.isCute,
+    OwnerId:req.body.OwnerId
   })
     .then((data) => {
       res.status(201).json(data);

@@ -14,7 +14,10 @@ Owner.init({
          }
     },
     password: {
-        type:DataTypes.STRING
+        type:DataTypes.STRING,
+        validate: {
+            len:[8]
+        }
     }
 },{
     sequelize

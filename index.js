@@ -14,6 +14,6 @@ app.use("/api/pets",petsRoutes)
 const ownersRoutes = require("./controllers/ownersController");
 app.use("/api/owners",ownersRoutes)
 
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync({ force: false }).then(() => {
   app.listen(PORT, () => console.log('Now listening'));
 });

@@ -1,6 +1,6 @@
 const sequelize = require("../config/connection");
 
-const {Owner, Pet} = require("../models")
+const {Owner, Pet,Toy} = require("../models")
 
 const seed = async () => {
   await sequelize.sync({ force: true });
@@ -45,7 +45,24 @@ const seed = async () => {
     species:"dog",
     age:15,
     OwnerId:1
-  }])
+  }]);
+  const toys = await Toy.bulkCreate([
+    {
+      name:"Ball",
+      description:"ITS SOOOOO BOUNCY!!!",
+      PetId:3
+    },
+    {
+      name:"Ball",
+      description:"it has a motor and light and im gonna chase it all around the house until it gets stuck, usually under a chair leg or in a closet.",
+      PetId:2
+    },
+    {
+      name:"My tail",
+      description:"I am an adult cat who still chases her tail, its always up to stuff and needs to be caught.  Sometimes it chases me back, and I can never escape",
+      PetId:1
+    }
+  ])
 //   console.log(owners)
   process.exit(0);
 };

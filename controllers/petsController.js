@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Pet,Owner} = require("../models")
+const { Pet,Owner,Toy} = require("../models")
 
 
 router.get("/", (req, res) => {
@@ -9,7 +9,9 @@ router.get("/", (req, res) => {
     include:[{
       model:Owner,
       attributes:["username"]
-    }]
+    },
+    Toy
+  ]
   })
     .then((allPets) => {
       res.json(allPets);

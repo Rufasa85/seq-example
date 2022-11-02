@@ -43,9 +43,10 @@ router.post("/login",(req,res)=>{
         if(!foundOwner){
             return res.status(401).json({msg:"login failed"})
         }
-        if(!bcrypt.compareSync(req.body.password,foundOwner.password)){
+        if(!foundOwner.checkPassword(req.body.password)){
             return res.status(401).json({msg:"login failed"})
         }
+        foundOwner.sayHi()
         res.json(foundOwner)
     }).catch(err=>{
         console.log(err);

@@ -25,7 +25,7 @@ router.post("/",(req,res)=>{
     console.log(req.body)
     Owner.create({
         username:req.body.username,
-        password:bcrypt.hashSync(req.body.password,3)
+        password:req.body.password
     }).then(data=>{
         res.json(data)
     }).catch(err=>{

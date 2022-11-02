@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
+const bcrypt = require("bcrypt");
 
 class Owner extends Model {}
 
@@ -20,7 +21,13 @@ Owner.init({
         }
     }
 },{
-    sequelize
+    sequelize,
+    hooks:{
+       beforeCreate: ownerObj=>{
+        ownerObj.password = bcrypt.hashSync(ownerObj.password,8);
+        return ownerObj;
+       },
+    }
 });
 
 module.exports=Owner

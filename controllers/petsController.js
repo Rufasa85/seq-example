@@ -1,27 +1,34 @@
 const express = require("express");
 const router = express.Router();
-const Pet = require("../models/Pet");
+const { Pet,Owner} = require("../models")
 
-// router.get("/", (req, res) => {
-//   Pet.findAll()
-//     .then((allPets) => {
-//       res.json(allPets);
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500).json({ err: err });
-//     });
-// });
-router.get("/", async (req, res) => {
-  try {
-    const allPets = await Pet.findAll();
-    res.json(allPets);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ err: err });
-  }
 
+router.get("/", (req, res) => {
+  Pet.findAll({
+    attributes:["name","isCute"],
+    include:[{
+      model:Owner,
+      attributes:["username"]
+    }]
+  })
+    .then((allPets) => {
+      res.json(allPets);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ err: err });
+    });
 });
+// router.get("/", async (req, res) => {
+//   try {
+//     const allPets = await Pet.findAll();
+//     res.json(allPets);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ err: err });
+//   }
+
+// });
 
 router.get("/:id", (req, res) => {
   Pet.findByPk(req.params.id)

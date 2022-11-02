@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const Owner = require("../models/Owner");
+const {Owner,Pet} = require("../models")
+
 const bcrypt = require("bcrypt");
 
 router.get("/",(req,res)=>{
-    Owner.findAll().then(allOwners=>{
+    Owner.findAll({
+        include:[Pet]
+    }).then(allOwners=>{
         res.json(allOwners)
     }).catch(err=>{
         console.log(err);

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {Toy,Pet} = require('../models');
+const {Toy,Pet,Owner} = require('../models');
 
 
 // GET to /api/toys returns all toys
@@ -17,7 +17,14 @@ router.get("/", (req, res) => {
 //GET to /api/toys/:id returns a specific toy with their pet data
 router.get("/:id", (req, res) => {
     Toy.findByPk(req.params.id,{
-        include:[Pet]
+        include:[{
+            model:Pet,
+            attributes:["name","species"],
+            include:[{
+                model:Owner,
+                attributes:["username"]
+            }]
+        }]
     })
       .then((oneToy) => {
         if(!oneToy){
